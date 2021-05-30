@@ -61,11 +61,14 @@ print_section <- function(position_data, section_id){
     mutate_if(is.list, purrr::map_chr, as.character) %>% 
     filter(section == section_id) %>% 
     mutate(
-      end = ifelse(is.na(end), "Current", end),
-      end_num = as.integer(ifelse(date_is_current(end), future_year, end))
+      start = lubridate::ymd(start),
+      end = suppressWarnings(replace_na(lubridate::ymd(end), Sys.Date())),
+      # end_num = as.integer(ifelse(date_is_current(end), future_year, end))
     ) %>% 
-    arrange(desc(end_num)) %>% 
-    mutate(id = 1:n()) %>% 
+    arrange(desc(end), desc(start)) %>% 
+    mutate(start = format(start, "%m/%Y"),
+           end = ifelse(end == Sys.Date(), "Current", format(end, "%m/%Y")),
+           id = 1:n()) %>% 
     pivot_longer(
       starts_with('description'),
       names_to = 'description_num',

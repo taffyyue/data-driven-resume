@@ -61,8 +61,8 @@ position_data <- position_data %>%
   mutate(
     # Build some custom sections by collapsing others
     section = case_when(
-      section %in% c('research_positions', 'industry_positions') ~ 'positions', 
-      section %in% c('data_science_writings', 'by_me_press') ~ 'writings',
+      grepl("positions", section) ~ 'positions', 
+      grepl("writings", section) ~ 'writings',
       TRUE ~ section
     )
   ) 
@@ -116,19 +116,17 @@ Calligraphy, Photography, Travel Planning, Horror Movies
 
 Disclaimer {#disclaimer}
 --------------------------------------------------------------------------------
+Made w/ R [**pagedown**](https://github.com/rstudio/pagedown). 
 
-Made w/ [**pagedown**](https://github.com/rstudio/pagedown). 
-
-Source code: [github.com/nstrayer/cv](https://github.com/nstrayer/cv).
+Source code: [github.com/taffyyue/data-driven-resume](https://github.com/taffyyue/data-driven-resume).
 
 Last updated on `r Sys.Date()`.
-
 
 
 Main
 ================================================================================
 
-Nick Strayer {#title}
+Mengwei Yue (Taffy) {#title}
 --------------------------------------------------------------------------------
 
 ```{r}
@@ -136,17 +134,7 @@ print_text_block(text_blocks, 'intro')
 ```
 
 
-
-Education {data-icon=graduation-cap data-concise=true}
---------------------------------------------------------------------------------
-
-```{r}
-position_data %>% print_section('education')
-```
-
-
-
-Selected Positions {data-icon=suitcase}
+Working Experiences {data-icon=suitcase}
 --------------------------------------------------------------------------------
 
 ```{r}
@@ -154,12 +142,20 @@ position_data %>% print_section('positions')
 ```
 
 
-
-Selected Writing {data-icon=newspaper}
+Education & Research {data-icon=graduation-cap data-concise=true}
 --------------------------------------------------------------------------------
 
+::: aside
+
+**SAS Certifications**
+
+Certified Statistical Business Analyst Using SAS 9: Regression and Modeling
+
+Certified Advanced Programmer for data management software SAS 9  
+
+Certified Base Programmer for data management software SAS
+:::
+
 ```{r}
-position_data %>% print_section('writings')
+position_data %>% print_section('education')
 ```
-
-
